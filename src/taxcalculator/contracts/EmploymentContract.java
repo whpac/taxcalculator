@@ -13,6 +13,8 @@ public class EmploymentContract extends BaseContract implements Contract {
         DecimalFormat df00 = new DecimalFormat("#.00");
         DecimalFormat df = new DecimalFormat("#");
 
+        double taxDeductibleExpenses = 111.25;
+
         System.out.println("EMPLOYMENT");
         System.out.println("Income " + income);
         double d_income = calculateIncome(income);
@@ -26,7 +28,7 @@ public class EmploymentContract extends BaseContract implements Contract {
         System.out.println("Tax deductible expenses " + taxDeductibleExpenses);
 
         double taxedIncome = d_income - taxDeductibleExpenses;
-        double taxedIncome0 = Double.parseDouble(df.format(taxedIncome));
+        double taxedIncome0 = Math.round(taxedIncome);
         System.out.println("income " + taxedIncome + " rounded " + df.format(taxedIncome0));
         advanceTax = calculateTax(taxedIncome0);
         System.out.println("Advance tax 18 % = " + advanceTax);

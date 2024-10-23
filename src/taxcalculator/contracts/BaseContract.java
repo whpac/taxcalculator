@@ -6,7 +6,6 @@ public abstract class BaseContract {
     public double soc_health_security = 0; // 1,5% of basis
     public double soc_sick_security = 0; // 2,45% of basis
     // health-related taxes
-    public double taxDeductibleExpenses = 111.25;
     public double soc_health1 = 0; // of basis up to 9%
     public double soc_health2 = 0; // of basis up to  7,75 %
     public double taxFreeIncome = 46.33; // tax-free income monthly 46,33 PLN

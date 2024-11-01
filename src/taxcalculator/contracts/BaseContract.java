@@ -1,33 +1,51 @@
 package taxcalculator.contracts;
 
-public abstract class BaseContract {
-    // social security taxes
-    public double soc_security = 0; // 9,76% of basis
-    public double soc_health_security = 0; // 1,5% of basis
-    public double soc_sick_security = 0; // 2,45% of basis
-    // health-related taxes
-    public double soc_health1 = 0; // of basis up to 9%
-    public double soc_health2 = 0; // of basis up to  7,75 %
-    public double taxFreeIncome = 46.33; // tax-free income monthly 46,33 PLN
-    public double advanceTax = 0;
+import java.text.DecimalFormat;
 
-    protected double calculateAdvanceTax() {
-        return advanceTax - soc_health2 - taxFreeIncome;
+public abstract class BaseContract {
+    // Constants for social security and tax rates
+    private static final double SOCIAL_SECURITY_RATE = 9.76;
+    private static final double HEALTH_SECURITY_RATE = 1.5;
+    private static final double SICKNESS_SECURITY_RATE = 2.45;
+    private static final double HEALTH_TAX_RATE_1 = 9.0;
+    private static final double HEALTH_TAX_RATE_2 = 7.75;
+    protected static final double TAX_FREE_INCOME = 46.33;
+    private static final double TAX_RATE = 18.0;
+
+    protected double calculatePercentage(double amount, double rate) {
+        return (amount * rate) / 100;
     }
 
     protected double calculateTax(double income) {
-        return (income * 18) / 100;
+        return (income * TAX_RATE) / 100;
     }
 
-    protected double calculateIncome(double income) {
-        soc_security = (income * 9.76) / 100;
-        soc_health_security = (income * 1.5) / 100;
-        soc_sick_security = (income * 2.45) / 100;
-        return (income - soc_security - soc_health_security - soc_sick_security);
+    protected double calculateNetIncome(double income) {
+        double socialSecurityTax = calculatePercentage(income, SOCIAL_SECURITY_RATE);
+        double healthSecurityTax = calculatePercentage(income, HEALTH_SECURITY_RATE);
+        double sicknessSecurityTax = calculatePercentage(income, SICKNESS_SECURITY_RATE);
+        return income - (socialSecurityTax + healthSecurityTax + sicknessSecurityTax);
     }
 
-    protected void calculateOtherTaxes(double income) {
-        soc_health1 = (income * 9) / 100;
-        soc_health2 = (income * 7.75) / 100;
+    protected double[] calculateHealthTaxes(double netIncome) {
+        double healthTax1 = calculatePercentage(netIncome, HEALTH_TAX_RATE_1);
+        double healthTax2 = calculatePercentage(netIncome, HEALTH_TAX_RATE_2);
+        return new double[]{healthTax1, healthTax2};
+    }
+
+    protected double calculateAdvanceTax(double taxableIncome) {
+        return calculateTax(taxableIncome) - TAX_FREE_INCOME;
+    }
+
+    protected void displayResult(String label, double value) {
+        System.out.println(label + ": " + new DecimalFormat("#.00").format(value));
+    }
+
+    protected void displayResult(String label, String value) {
+        System.out.println(label + ": " + value);
+    }
+
+    protected void displayResult(String label, double value, double roundedValue) {
+        System.out.println(label + ": " + new DecimalFormat("#.00").format(value) + " (Rounded: " + roundedValue + ")");
     }
 }

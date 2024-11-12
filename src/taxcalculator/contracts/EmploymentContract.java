@@ -1,5 +1,7 @@
 package taxcalculator.contracts;
 
+import taxcalculator.TaxReport;
+
 public class EmploymentContract extends BaseContract implements Contract {
     private final double income;
     private final double FIXED_DEDUCIBLE_EXPENSES = 111.25;
@@ -14,8 +16,8 @@ public class EmploymentContract extends BaseContract implements Contract {
     }
 
     @Override
-    public void calculateTaxes() {
+    public TaxReport calculateTaxes() {
         displayResult("Contract Type", "Employment");
-        calculateTaxes(income);
+        return calculateTaxes(income);
     }
 }

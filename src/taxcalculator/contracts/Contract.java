@@ -1,6 +1,8 @@
 package taxcalculator.contracts;
 
+import taxcalculator.TaxReport;
+
 public interface Contract {
 
-    void calculateTaxes();
+    TaxReport calculateTaxes();
 }

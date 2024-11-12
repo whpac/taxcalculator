@@ -1,5 +1,7 @@
 package taxcalculator.contracts;
 
+import taxcalculator.TaxReport;
+
 public class CivilContract extends BaseContract implements Contract {
     private final double income;
     private final double DEDUCIBLE_EXPENSES_RATE = 20.0;
@@ -15,8 +17,8 @@ public class CivilContract extends BaseContract implements Contract {
     }
 
     @Override
-    public void calculateTaxes() {
+    public TaxReport calculateTaxes() {
         displayResult("Contract Type", "Civil");
-        calculateTaxes(income);
+        return calculateTaxes(income);
     }
 }

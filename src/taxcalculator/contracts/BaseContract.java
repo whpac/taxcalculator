@@ -1,5 +1,7 @@
 package taxcalculator.contracts;
 
+import taxcalculator.TaxReport;
+
 import java.text.DecimalFormat;
 
 public abstract class BaseContract {
@@ -12,7 +14,7 @@ public abstract class BaseContract {
     protected double TAX_FREE_INCOME = 46.33;
     private final double TAX_RATE = 18.0;
 
-    public void calculateTaxes(double income) {
+    public TaxReport calculateTaxes(double income) {
         displayResult("Income", income);
 
         double netIncome = calculateNetIncome(income);
@@ -36,6 +38,8 @@ public abstract class BaseContract {
 
         double finalNetIncome = netIncome - (healthTax1 + Math.round(advanceTax));
         displayResult("Final net income", finalNetIncome);
+
+        return null; // TODO: Create and return the tax report
     }
 
     protected double calculatePercentage(double amount, double rate) {

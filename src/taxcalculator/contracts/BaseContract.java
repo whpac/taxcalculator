@@ -1,8 +1,12 @@
 package taxcalculator.contracts;
 
 import taxcalculator.TaxReport;
+import taxcalculator.TaxReportImpl;
+import taxcalculator.taxes.Tax;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BaseContract {
     // Constants for social security and tax rates
@@ -37,9 +41,15 @@ public abstract class BaseContract {
         displayResult("Advance tax 18% (reduced, paid)", advanceTax);
 
         double finalNetIncome = netIncome - (healthTax1 + Math.round(advanceTax));
+        double roundedFinalNetIncome = Math.round(finalNetIncome);
         displayResult("Final net income", finalNetIncome);
+        
+        List<Tax> taxes = new ArrayList<>();
+        taxes.add(new Tax("Health Tax 9%", healthTax1, netIncome));
+        taxes.add(new Tax("Health Tax 7.75%", healthTax2, netIncome));
+        taxes.add(new Tax("Advance Tax", advanceTax, taxableIncome));
 
-        return null; // TODO: Create and return the tax report
+        return new TaxReportImpl(income, roundedFinalNetIncome, taxes);
     }
 
     protected double calculatePercentage(double amount, double rate) {

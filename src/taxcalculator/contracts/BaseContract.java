@@ -4,7 +4,6 @@ import taxcalculator.TaxReport;
 import taxcalculator.TaxReportImpl;
 import taxcalculator.taxes.Tax;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,30 +18,21 @@ public abstract class BaseContract {
     private final double TAX_RATE = 18.0;
 
     public TaxReport calculateTaxes(double income) {
-        displayResult("Income", income);
 
         double netIncome = calculateNetIncome(income);
         double taxDeductibleExpenses = calculateDeducibleExpenses(netIncome);
-        displayResult("Original net income", netIncome);
-        displayResult("Tax deducible expenses", taxDeductibleExpenses);
-
+       
         double[] healthTaxes = calculateHealthTaxes(netIncome);
         double healthTax1 = healthTaxes[0];
         double healthTax2 = healthTaxes[1];
 
-        displayResult("Health Tax (9%)", healthTax1);
-        displayResult("Health Tax (7.75%)", healthTax2);
-
         double taxableIncome = netIncome - taxDeductibleExpenses;
         double roundedTaxableIncome = Math.round(taxableIncome);
-        displayResult("Taxable income", taxableIncome, roundedTaxableIncome);
-
+        
         double advanceTax = calculateAdvanceTax(roundedTaxableIncome, healthTax2);
-        displayResult("Advance tax 18% (reduced, paid)", advanceTax);
 
         double finalNetIncome = netIncome - (healthTax1 + Math.round(advanceTax));
         double roundedFinalNetIncome = Math.round(finalNetIncome);
-        displayResult("Final net income", finalNetIncome);
         
         List<Tax> taxes = new ArrayList<>();
         taxes.add(new Tax("Health Tax 9%", healthTax1, netIncome));
@@ -79,15 +69,5 @@ public abstract class BaseContract {
         return calculateTax(taxableIncome) - TAX_FREE_INCOME - healthTax2;
     }
 
-    protected void displayResult(String label, double value) {
-        System.out.println(label + ": " + new DecimalFormat("#.00").format(value));
-    }
-
-    protected void displayResult(String label, String value) {
-        System.out.println(label + ": " + value);
-    }
-
-    protected void displayResult(String label, double value, double roundedValue) {
-        System.out.println(label + ": " + new DecimalFormat("#.00").format(value) + " (Rounded: " + roundedValue + ")");
-    }
+    
 }

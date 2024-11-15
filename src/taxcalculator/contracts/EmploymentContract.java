@@ -17,7 +17,7 @@ public class EmploymentContract extends BaseContract implements Contract {
 
     @Override
     public TaxReport calculateTaxes() {
-        displayResult("Contract Type", "Employment");
+        System.out.println("Contract Type: Employment");
         return calculateTaxes(income);
     }
 }

@@ -18,7 +18,7 @@ public class CivilContract extends BaseContract implements Contract {
 
     @Override
     public TaxReport calculateTaxes() {
-        displayResult("Contract Type", "Civil");
+        System.out.println("Contract Type: Civil");
         return calculateTaxes(income);
     }
 }
